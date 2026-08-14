@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Galeria do Conhecimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── DESIGN TOKENS ── */
+:root{
+  --navy:#0d1a2b;--navy-mid:#112236;--navy-light:#1a2f47;
+  --gold:#c9a84c;--gold-light:#e2c97e;--gold-dim:#7a6030;
+  --cream:#f0e6c8;--cream-dim:#b8a880;--text:#d4c89a;
+
+  /* Escala tipográfica base (desktop) */
+  --fs-xs:   0.8rem;   /* labels, badges, tags        */
+  --fs-sm:   0.95rem;  /* nav links, botões, card-num */
+  --fs-base: 1.1rem;   /* card desc, body texto       */
+  --fs-md:   1.2rem;   /* card title, mc-title        */
+  --fs-lg:   1.35rem;  /* sec-label, modal eyebrow    */
+  --fs-xl:   1.6rem;   /* sec-title, modal title base */
+  --fs-2xl:  2rem;     /* hero subtitle               */
+
+  --nav-h: 64px;
+}
+
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--navy);color:var(--text);
+  font-family:'EB Garamond',Georgia,serif;font-size:var(--fs-base);
+  min-height:100vh;overflow-x:hidden;line-height:1.65}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 15% 20%,rgba(201,168,76,.05) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 80%,rgba(201,168,76,.05) 0%,transparent 55%);
+  pointer-events:none}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  background:linear-gradient(to bottom,rgba(8,16,28,.98),rgba(8,16,28,.90));
+  border-bottom:1px solid var(--gold-dim);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:var(--nav-h)}
+
+.nav-brand{font-family:'Cinzel',serif;font-size:clamp(0.85rem,2vw,1.1rem);
+  font-weight:700;letter-spacing:.12em;color:var(--gold-light);text-decoration:none;
+  white-space:nowrap}
+
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.1em;
+  color:var(--cream-dim);text-decoration:none;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold-light)}
+
+.nav-add{background:none;border:1px solid var(--gold-dim);color:var(--gold);
+  font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.08em;
+  padding:.55rem 1.2rem;cursor:pointer;transition:all .2s;white-space:nowrap;
+  min-height:44px}                        /* toque mínimo 44px */
+.nav-add:hover{background:var(--gold);color:var(--navy)}
+
+/* ── HERO ── */
+.hero{position:relative;z-index:1;
+  padding:calc(var(--nav-h) + 4rem) 1.5rem 3.5rem;text-align:center}
+.hero-orn{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1.2rem}
+.orn-line{width:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold-dim))}
+.orn-line.r{background:linear-gradient(to left,transparent,var(--gold-dim))}
+.hero h1{font-family:'Cinzel',serif;font-size:clamp(2rem,5vw,3.6rem);
+  font-weight:700;color:var(--gold-light);letter-spacing:.07em;line-height:1.1;margin-bottom:.6rem}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.2rem,2.5vw,1.6rem);color:var(--cream-dim);letter-spacing:.04em}
+.hero-div{width:200px;height:1px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);margin:1.8rem auto}
+
+/* ── FILTER BAR ── */
+.filter-bar{position:relative;z-index:1;display:flex;gap:.7rem;flex-wrap:wrap;
+  max-width:1200px;margin:0 auto;padding:0 1.5rem 2.5rem}
+.filter-btn{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.14em;
+  text-transform:uppercase;background:none;border:1px solid var(--gold-dim);
+  color:var(--cream-dim);padding:.55rem 1.2rem;cursor:pointer;transition:all .2s;
+  min-height:44px}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+
+/* ── SECTION ── */
+.section{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 1.5rem 5rem}
+.sec-label{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.25em;
+  text-transform:uppercase;color:var(--gold-dim);margin-bottom:.5rem}
+.sec-title{font-family:'Cinzel',serif;font-size:clamp(1.3rem,2.5vw,1.9rem);
+  color:var(--gold-light);font-weight:600;margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.sec-title::after{content:'';flex:1;min-width:40px;height:1px;
+  background:linear-gradient(to right,var(--gold-dim),transparent)}
+.count-badge{font-size:var(--fs-xs);color:var(--gold-dim);letter-spacing:.1em;
+  border:1px solid var(--gold-dim);padding:.2rem .7rem;font-weight:400;
+  white-space:nowrap}
+
+/* ── GRID ── */
+.gallery-grid{display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));
+  gap:1.5rem}
+
+/* ── CARD ── */
+.card{position:relative;background:linear-gradient(145deg,var(--navy-mid),var(--navy-light));
+  border:1px solid var(--gold-dim);cursor:pointer;overflow:hidden;
+  transition:transform .3s,box-shadow .3s,border-color .3s}
+.card::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,168,76,.07) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s}
+.card:hover,.card:focus-visible{transform:translateY(-5px);border-color:var(--gold);
+  box-shadow:0 10px 40px rgba(201,168,76,.14),0 0 0 1px rgba(201,168,76,.1);outline:none}
+.card:hover::before,.card:focus-visible::before{opacity:1}
+
+.card-thumb-wrap{aspect-ratio:4/5;overflow:hidden;
+  background:linear-gradient(135deg,#112236,#1a2f47);
+  display:flex;align-items:center;justify-content:center}
+.card-thumb{width:100%;height:100%;object-fit:cover;display:block;
+  filter:sepia(.25) brightness(.88);transition:filter .3s}
+.card:hover .card-thumb,.card:focus-visible .card-thumb{filter:sepia(.1) brightness(.97)}
+
+.card-body{padding:1.2rem 1.4rem 1.5rem;border-top:1px solid var(--gold-dim)}
+.card-tag{display:inline-block;font-family:'Cinzel',serif;font-size:var(--fs-xs);
+  letter-spacing:.14em;color:var(--navy);background:var(--gold-dim);
+  padding:.2rem .65rem;margin-bottom:.6rem;text-transform:uppercase}
+.card-num{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.2em;
+  color:var(--gold-dim);margin-bottom:.35rem}
+.card-title{font-family:'Cinzel',serif;font-size:var(--fs-md);font-weight:600;
+  color:var(--gold-light);line-height:1.3;margin-bottom:.5rem}
+.card-desc{font-size:var(--fs-base);color:var(--cream-dim);line-height:1.55;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-cta{display:inline-flex;align-items:center;gap:.4rem;margin-top:.85rem;
+  font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.12em;color:var(--gold)}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:200;
+  background:rgba(4,10,20,.93);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+  opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.active{opacity:1;pointer-events:all}
+
+.modal{position:relative;background:linear-gradient(145deg,#0f1e30,#162840);
+  border:1px solid var(--gold-dim);max-width:960px;width:100%;max-height:92vh;
+  overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);transform:translateY(20px);transition:transform .3s}
+.modal-overlay.active .modal{transform:translateY(0)}
+
+.modal-img-wrap{position:relative;overflow:hidden;min-height:320px}
+.modal-img{width:100%;height:100%;object-fit:cover;filter:sepia(.2) brightness(.88);display:block}
+.modal-img-fade{position:absolute;inset:0;background:linear-gradient(to right,transparent 50%,#0f1e30)}
+
+.modal-content{padding:2.5rem 2.2rem 2.2rem;display:flex;flex-direction:column;justify-content:flex-start;overflow-y:auto}
+.modal-eyebrow{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.22em;
+  color:var(--gold-dim);text-transform:uppercase;margin-bottom:.7rem}
+.modal-title{font-family:'Cinzel',serif;font-size:clamp(1.4rem,2.8vw,2.1rem);
+  color:var(--gold-light);font-weight:700;line-height:1.2;margin-bottom:1rem}
+.modal-div{width:60px;height:1px;background:var(--gold-dim);margin-bottom:1.3rem}
+.modal-body{font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.85;color:var(--cream-dim)}
+.modal-body p{margin-bottom:.9rem}
+.modal-body em{color:var(--cream);font-style:italic}
+
+.modal-concepts{margin-top:1.4rem;border-top:1px solid rgba(201,168,76,.15);
+  padding-top:1.4rem;display:none}
+.mc-title{font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.18em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:.9rem}
+.clist{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.clist li{display:flex;gap:.65rem;font-size:clamp(0.95rem,1.5vw,1.05rem);
+  color:var(--cream-dim);line-height:1.5}
+.clist li::before{content:'◆';color:var(--gold-dim);font-size:.55rem;
+  margin-top:.45rem;flex-shrink:0}
+
+.modal-examples{margin-top:1.4rem;border-top:1px solid rgba(201,168,76,.15);
+  padding-top:1.4rem;display:none}
+.me-title{font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.18em;
+  color:var(--gold-light);text-transform:uppercase;margin-bottom:.9rem}
+.elist{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.elist li{display:flex;gap:.65rem;font-size:clamp(0.95rem,1.5vw,1.05rem);
+  color:var(--cream-dim);line-height:1.5}
+.elist li::before{content:'▸';color:var(--gold);font-size:.75rem;
+  margin-top:.25rem;flex-shrink:0}
+
+.modal-close{position:absolute;top:1rem;right:1rem;background:rgba(13,26,43,.8);
+  border:1px solid var(--gold-dim);color:var(--gold);width:42px;height:42px;
+  cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;z-index:10;border-radius:0}
+.modal-close:hover{background:var(--gold);color:var(--navy)}
+
+/* ── ADD PANEL ── */
+.add-panel{position:fixed;top:0;right:0;bottom:0;z-index:150;
+  width:min(520px,100vw);background:linear-gradient(160deg,#0c1929,#10202f);
+  border-left:1px solid var(--gold-dim);padding:1.5rem;overflow-y:auto;
+  transform:translateX(100%);transition:transform .35s ease;
+  display:flex;flex-direction:column;gap:1.2rem}
+.add-panel.open{transform:translateX(0)}
+.panel-hd{display:flex;align-items:center;justify-content:space-between;
+  margin-top:3rem;margin-bottom:.5rem}
+.panel-title{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold-light)}
+.panel-close{background:none;border:1px solid var(--gold-dim);color:var(--gold);
+  width:42px;height:42px;cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;transition:all .2s}
+.panel-close:hover{background:var(--gold);color:var(--navy)}
+
+.field-label{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.14em;
+  color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:.4rem}
+.field-input,.field-textarea{width:100%;background:rgba(255,255,255,.04);
+  border:1px solid var(--gold-dim);color:var(--cream);
+  font-family:'EB Garamond',serif;font-size:1.05rem;
+  padding:.75rem .9rem;outline:none;transition:border-color .2s;resize:vertical;
+  min-height:44px}
+.field-input:focus,.field-textarea:focus{border-color:var(--gold)}
+.field-textarea{min-height:90px}
+
+/* Upload */
+.upload-area{border:2px dashed var(--gold-dim);padding:2rem 1rem;
+  text-align:center;cursor:pointer;transition:all .25s;position:relative;
+  background:rgba(201,168,76,.02)}
+.upload-area:hover,.upload-area.drag{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:2.2rem;margin-bottom:.5rem}
+.upload-text-main{font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.1em;
+  color:var(--cream-dim);margin-bottom:.3rem}
+.upload-text-sub{font-size:var(--fs-xs);color:var(--gold-dim)}
+.upload-preview{width:100%;max-height:200px;object-fit:cover;
+  border:1px solid var(--gold-dim);margin-top:.8rem;display:none;filter:sepia(.2) brightness(.9)}
+.upload-filename{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.1em;
+  color:var(--gold);margin-top:.5rem;display:none}
+
+.path-hint{font-size:var(--fs-xs);color:var(--gold-dim);line-height:1.6;
+  border-left:2px solid var(--gold-dim);padding:.55rem .9rem;
+  background:rgba(201,168,76,.03);margin-top:.25rem}
+.path-hint code{color:var(--gold-light);font-family:monospace;font-size:.9rem}
+
+.add-btn{background:var(--gold);color:var(--navy);border:none;
+  font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.13em;
+  text-transform:uppercase;padding:1rem 1.8rem;cursor:pointer;
+  transition:background .2s;align-self:flex-start;margin-top:.5rem;min-height:48px}
+.add-btn:hover{background:var(--gold-light)}
+
+/* Empty */
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem}
+.empty-state p{font-family:'Cinzel',serif;font-size:var(--fs-md);
+  letter-spacing:.12em;color:var(--gold-dim)}
+
+/* Footer */
+footer{position:relative;z-index:1;border-top:1px solid var(--gold-dim);
+  text-align:center;padding:2.5rem;font-family:'Cinzel',serif;
+  font-size:var(--fs-xs);letter-spacing:.18em;color:var(--gold-dim)}
+
+/* ══════════════════════════════════════════
+   RESPONSIVIDADE
+   ══════════════════════════════════════════ */
+
+/* ── TABLET (≤ 900px) ── */
+@media(max-width:900px){
+  :root{--nav-h:60px}
+
+  /* Nav: esconde links, mantém brand + botão */
+  .nav-links{display:none}
+  .nav-brand{font-size:clamp(.8rem,3.5vw,1rem)}
+
+  /* Hero */
+  .hero{padding:calc(var(--nav-h) + 3rem) 1.5rem 3rem}
+
+  /* Grid: 2 colunas fixas */
+  .gallery-grid{grid-template-columns:repeat(2,1fr);gap:1.2rem}
+
+  /* Modal: empilha imagem acima do texto */
+  .modal{grid-template-columns:1fr}
+  .modal-img-wrap{min-height:260px;max-height:280px}
+  .modal-img-fade{background:linear-gradient(to bottom,transparent 50%,#0f1e30)}
+  .modal-content{padding:2rem 1.8rem 2rem}
+}
+
+/* ── MOBILE GRANDE (≤ 600px) ── */
+@media(max-width:600px){
+  :root{
+    --nav-h:56px;
+    /* escala de fonte ligeiramente reduzida para telas menores */
+    --fs-xs:   0.82rem;
+    --fs-sm:   0.95rem;
+    --fs-base: 1.05rem;
+    --fs-md:   1.15rem;
+  }
+
+  nav{padding:0 1rem}
+  .nav-brand{font-size:.82rem;letter-spacing:.08em}
+  .nav-add{padding:.5rem .9rem;font-size:.82rem}
+
+  /* Hero */
+  .hero{padding:calc(var(--nav-h) + 2.5rem) 1rem 2.5rem}
+  .hero h1{letter-spacing:.04em}
+
+  /* Filter */
+  .filter-bar{padding:0 1rem 2rem;gap:.5rem}
+  .filter-btn{padding:.5rem .9rem;font-size:.75rem}
+
+  /* Section */
+  .section{padding:0 1rem 4rem}
+
+  /* Grid: 1 coluna */
+  .gallery-grid{grid-template-columns:1fr;gap:1rem}
+
+  /* Card */
+  .card-thumb-wrap{aspect-ratio:16/9}   /* paisagem no mobile = thumb menor */
+  .card-body{padding:1rem 1.1rem 1.2rem}
+  .card-title{font-size:1.1rem}
+  .card-desc{-webkit-line-clamp:3}      /* 3 linhas no mobile */
+
+  /* Modal */
+  .modal{max-height:95vh}
+  .modal-overlay{padding:.5rem}
+  .modal-img-wrap{min-height:200px;max-height:230px}
+  .modal-content{padding:1.5rem 1.2rem 1.5rem}
+  .modal-title{font-size:1.4rem}
+  .modal-body{font-size:1rem}
+  .clist li{font-size:.95rem}
+  .modal-close{width:40px;height:40px;top:.6rem;right:.6rem}
+
+  /* Panel */
+  .add-panel{width:100vw;border-left:none;border-top:1px solid var(--gold-dim);padding:1rem}
+  .panel-hd{margin-top:2.5rem}
+  .panel-title{font-size:1.1rem}
+  .add-btn{width:100%;justify-content:center;text-align:center}
+}
+
+/* ── MOBILE PEQUENO (≤ 380px) ── */
+@media(max-width:380px){
+  .nav-brand{font-size:.72rem}
+  .hero h1{font-size:1.8rem}
+  .hero-sub{font-size:1.1rem}
+  .card-title{font-size:1rem}
+  .modal-title{font-size:1.25rem}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">✦ GALERIA DO CONHECIMENTO</a>
+  <ul class="nav-links">
+    <li><a href="#colecao">Coleção</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+  </ul>
+  <button class="nav-add" onclick="openPanel()">+ Adicionar</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orn">
+    <div class="orn-line"></div>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#7a6030"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+    <div class="orn-line r"></div>
+  </div>
+  <h1>Galeria do Conhecimento</h1>
+  <p class="hero-sub">Uma coleção de saberes ilustrados</p>
+  <div class="hero-div"></div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-tag="all" onclick="filterBy('all',this)">Todos</button>
+</div>
+
+<!-- GALLERY -->
+<main class="section" id="colecao">
+  <p class="sec-label">Coleção</p>
+  <h2 class="sec-title">
+    Obras em Destaque
+    <span class="count-badge" id="countBadge">0 obras</span>
+  </h2>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</main>
+
+<footer id="sobre">✦ Galeria do Conhecimento &nbsp;·&nbsp; Todos os direitos reservados</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="overlayClick(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-img-wrap" id="modalImgWrap">
+      <img class="modal-img" id="modalImg" src="" alt=""/>
+      <div class="modal-img-fade"></div>
+    </div>
+    <div class="modal-content">
+      <p class="modal-eyebrow" id="modalEyebrow"></p>
+      <h2 class="modal-title"  id="modalTitle"></h2>
+      <div class="modal-div"></div>
+      <div class="modal-body"  id="modalBody"></div>
+      <div class="modal-concepts" id="modalConcepts"></div>
+      <div class="modal-examples" id="modalExamples"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PANEL -->
+<div class="add-panel" id="addPanel">
+  <div class="panel-hd">
+    <h3 class="panel-title">Nova Obra</h3>
+    <button class="panel-close" onclick="closePanel()">✕</button>
+  </div>
+
+  <div>
+    <label class="field-label">Título *</label>
+    <input class="field-input" id="iTitle" placeholder="Ex: Sombra — Carl Jung"/>
+  </div>
+  <div>
+    <label class="field-label">Autor / Categoria</label>
+    <input class="field-input" id="iAuthor" placeholder="Ex: Jung · Psicologia Analítica"/>
+  </div>
+  <div>
+    <label class="field-label">Tag (filtro)</label>
+    <input class="field-input" id="iTag" placeholder="Ex: Jung"/>
+  </div>
+  <div>
+    <label class="field-label">Descrição curta (card)</label>
+    <input class="field-input" id="iShort" placeholder="Até 120 caracteres"/>
+  </div>
+  <div>
+    <label class="field-label">Descrição completa (modal)</label>
+    <textarea class="field-textarea" id="iFull" style="min-height:110px" placeholder="Texto detalhado..."></textarea>
+  </div>
+  <div>
+    <label class="field-label">Conceitos-chave (um por linha)</label>
+    <textarea class="field-textarea" id="iConcepts" placeholder="Conceito 1&#10;Conceito 2"></textarea>
+  </div>
+
+  <div>
+    <label class="field-label">Nome do arquivo de imagem</label>
+    <input class="field-input" id="iFilename" placeholder="Ex: sombra.png"/>
+    <div class="path-hint" id="pathHint">
+      Salve o arquivo em: <code>imagens/</code><br/>
+      Caminho completo: <code id="pathPreview">imagens/</code>
+    </div>
+  </div>
+
+  <div>
+    <label class="field-label">Pré-visualização (opcional)</label>
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="iFile" accept="image/*" onchange="handlePreview(event)"/>
+      <div class="upload-icon">🖼</div>
+      <p class="upload-text-main">Clique para pré-visualizar</p>
+      <p class="upload-text-sub">Apenas para conferir — a imagem real vem da pasta /imagens</p>
+    </div>
+    <img class="upload-preview" id="iPreview" alt="Pré-visualização"/>
+    <p class="upload-filename" id="iFilenameDetected"></p>
+  </div>
+
+  <button class="add-btn" onclick="addCard()">✦ Adicionar à Coleção</button>
+</div>
+
+<script>
+// ─── CATÁLOGO INICIAL ──────────────────────────────────────────────────────
+// As imagens são carregadas pelo caminho relativo: imagens/arquivo.png
+// Basta manter os arquivos na pasta /imagens ao lado do index.html
+const initialItems = [
+  {
+    id:1, tag:'Jung',
+    title:'Carl Gustav Jung — Principais Ideias',
+    author:'Psicologia Analítica · Séc. XX',
+    short:'As 9 principais ideias que moldaram a psicologia profunda e a compreensão da mente humana.',
+    full:`Carl Gustav Jung (1875–1961) foi um psiquiatra suíço cujas ideias revolucionaram a compreensão da psique humana. Discípulo de Freud, Jung desenvolveu a Psicologia Analítica — um sistema que integra filosofia, mitologia, religião e arte.
+
+Sua obra propõe que a mente é composta por camadas: o consciente, o inconsciente pessoal e o inconsciente coletivo. O caminho para a saúde psíquica passa pela integração dessas dimensões num processo chamado de Individuação.
+
+<em>"Até você tornar consciente o inconsciente, ele irá dirigir a sua vida e você chamará isso de destino."</em> — C. G. Jung`,
+    concepts:[
+      'Inconsciente Coletivo — camada psíquica compartilhada por toda a humanidade',
+      'Arquétipos — padrões universais: herói, sábio, grande mãe, sombra',
+      'Persona — a máscara social que apresentamos ao mundo',
+      'Sombra — aspectos reprimidos ou negados da personalidade',
+      'Anima e Animus — dimensões internas complementares do feminino e do masculino',
+      'Individuação — processo de integração e totalidade do Self',
+      'Tipos Psicológicos — introversão, extroversão e as quatro funções da psique',
+      'Sonhos e Símbolos — linguagem e mensagens do inconsciente',
+      'Sincronicidade — coincidências significativas entre psique e mundo externo',
+    ],
+    examples:[
+      'Inconsciente Coletivo — o medo instintivo do escuro existe em todas as culturas, sem precisar ser ensinado',
+      'Arquétipos — o herói aparece em Luke Skywalker, Simba e nos mitos gregos da mesma forma estrutural',
+      'Persona — o jeito formal que usamos no trabalho difere completamente do jeito descontraído em casa',
+      'Sombra — irritar-se de forma desproporcional com alguém que exibe traços que negamos em nós mesmos',
+      'Anima/Animus — homem muito racional que sonha repetidamente com figuras femininas misteriosas e sensíveis',
+      'Individuação — alguém que, aos 40 anos, abandona uma carreira imposta pela família para seguir uma vocação real',
+      'Tipos Psicológicos — introvertido que precisa de silêncio para recarregar após uma festa animada',
+      'Sonhos e Símbolos — sonhar repetidamente com uma casa em ruínas durante um período de crise pessoal',
+      'Sincronicidade — pensar num amigo que há anos não vê e, horas depois, ele ligar inesperadamente',
+    ],
+    imgPath:'imagens/jung-principais-ideias.png'
+  },
+  {
+    id:2, tag:'Jung',
+    title:'Inconsciente Coletivo',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'A parte mais profunda da psique, comum à humanidade inteira — herdada como estrutura da mente.',
+    full:`O Inconsciente Coletivo é, para Jung, uma camada psíquica universal, mais profunda do que o inconsciente pessoal. Não é formado pelas experiências individuais, mas herdado como estrutura da psique — presente em todos os seres humanos, independentemente de cultura ou época.
+
+É nessa camada que residem os arquétipos: imagens primordiais e padrões de experiência que se manifestam em sonhos, mitos, religiões e símbolos de povos que jamais tiveram contato entre si.
+
+<em>"Sob a diversidade das formas, existe uma única fonte."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — camada psíquica universal, compartilhada por todos os seres humanos',
+      'Origem — herdado como estrutura profunda da psique, não da experiência individual',
+      'Expressão — manifesta-se em sonhos, mitos, religiões e símbolos de diferentes povos',
+      'Arquétipos — é a base dos arquétipos: herói, mãe, sábio e sombra',
+      'Função — conecta o indivíduo à experiência humana coletiva e à produção simbólica da cultura',
+    ],
+    examples:[
+      'O medo instintivo de cobras e aranhas existe mesmo em pessoas que nunca foram expostas a esses animais',
+      'Ninguém ensina um bebê a se agarrar à mãe por segurança — esse padrão vem da estrutura psíquica herdada',
+      'Pirâmides, labirintos e figuras de Grande Mãe surgem em culturas que nunca tiveram contato entre si',
+      'O "velho sábio" aparece em Gandalf, Dumbledore, Merlim e nos mestres zen sem qualquer combinação prévia',
+      'Ao assistir a um filme de herói, sentimos emoções que vão além da história — ecoam algo ancestral em nós',
+    ],
+    imgPath:'imagens/inconsciente-coletivo.png'
+  },
+  {
+    id:3, tag:'Jung',
+    title:'Arquétipos',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'Padrões universais do inconsciente coletivo que organizam imagens, emoções e narrativas humanas.',
+    full:`Os arquétipos são formas universais do inconsciente coletivo — padrões primordiais que organizam a experiência humana. Não são imagens fixas, mas disposições que moldam a maneira como percebemos e reagimos ao mundo.
+
+Eles se expressam em sonhos, mitos, contos de fadas, religiões e obras de arte de todas as épocas e culturas. O Herói, a Grande Mãe, o Sábio — padrões presentes em toda narrativa humana.
+
+<em>"Os arquétipos dão forma à experiência e ao imaginário coletivo."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — padrões universais do inconsciente coletivo que organizam imagens e emoções',
+      'Herói — representa coragem, superação e a jornada de enfrentar e vencer desafios',
+      'Grande Mãe — simboliza cuidado, proteção, nutrição e também poder ambivalente',
+      'Sábio — figura de orientação, conhecimento, conselho e sentido profundo',
+      'Sombra — aspectos reprimidos, negados ou temidos da própria personalidade',
+      'Trickster — arquétipo da ruptura, irreverência, ambiguidade e transformação',
+    ],
+    examples:[
+      'Herói — o estudante que enfrenta fracassos, persiste e conclui a tese contra todas as probabilidades',
+      'Grande Mãe — a professora que cuida dos alunos com afeto profundo, ou a mãe que protege e às vezes sufoca',
+      'Sábio — o avô que orienta com poucas palavras certeiras; o mentor que aparece no momento certo da vida',
+      'Sombra — o vilão de um filme representa aspectos que o público reconhece mas não quer admitir em si mesmo',
+      'Trickster — o "agitador" do grupo de trabalho que rompe o protocolo e abre caminhos inesperados',
+      'Expressão — a jornada do herói está em Star Wars, Harry Potter, Moana e nos mitos gregos da mesma forma',
+    ],
+    imgPath:'imagens/arquetipos.png'
+  },
+  {
+    id:4, tag:'Jung',
+    title:'Persona',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'A máscara social que apresentamos ao mundo — o conjunto de papéis e atitudes de adaptação.',
+    full:`A Persona é o conjunto de papéis, atitudes e imagens que a pessoa apresenta ao mundo social. Como uma máscara de teatro, ela facilita a adaptação e a convivência em diferentes contextos — somos professor, chefe, filho, militar, conforme a cena exige.
+
+A Persona tem função adaptativa essencial: organiza a vida social, protege a intimidade e comunica expectativas. O perigo surge quando a pessoa se identifica completamente com ela, perdendo contato com sua individualidade mais profunda.
+
+<em>"A Persona serve à vida coletiva; não deve substituir a totalidade da pessoa."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — conjunto de papéis, atitudes e imagens apresentados ao mundo social',
+      'Função — facilita adaptação, convivência e desempenho em diferentes contextos da vida',
+      'Benefício — organiza a vida social, protege a intimidade e comunica expectativas',
+      'Risco — identificação excessiva com a Persona leva à perda da individualidade profunda',
+      'Relação com a Sombra — quanto mais perfeita a máscara, mais aspectos são empurrados para a Sombra',
+    ],
+    examples:[
+      'O mesmo médico que é firme e técnico no consultório é completamente descontraído e brincalhão em casa',
+      'Em reunião com a chefia, adotamos postura, vocabulário e tom diferentes dos que usamos com amigos',
+      'Saber se comportar numa entrevista de emprego ou num velório sem expor o que é íntimo e pessoal',
+      'O profissional que, aposentado, entra em crise de identidade porque toda sua vida era o cargo que ocupava',
+      'O líder extremamente controlado no trabalho tem explosões de raiva em casa — a Sombra escapa da máscara',
+    ],
+    imgPath:'imagens/persona.png'
+  },
+  {
+    id:5, tag:'Jung',
+    title:'Sombra',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'Os aspectos ocultos, reprimidos ou negados da personalidade — a face escura do eu.',
+    full:`A Sombra é a parte da psique que reúne traços, impulsos e emoções que o ego rejeita ou não reconhece em si mesmo. Forma-se a partir do que foi reprimido, censurado ou excluído pela educação, cultura e autoconceito.
+
+O que a pessoa não aceita em si tende a projetar com intensidade excessiva nos outros. Quando ignorada, a Sombra aparece em explosões emocionais, autoengano e relações tóxicas.
+
+Integrá-la não é agir por ela, mas torná-la consciente para ampliar a liberdade interior e a maturidade.
+
+<em>"Aquilo que negamos em nós pode dominar-nos em silêncio."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — parte da psique com traços, impulsos e emoções que o ego rejeita ou nega',
+      'Origem — forma-se pelo que foi reprimido pela educação, cultura e autoconceito',
+      'Conteúdo — raiva, inveja, medo, egoísmo, mas também talentos e espontaneidade esquecidos',
+      'Projeção — o que não aceitamos em nós é enxergado com intensidade desproporcional nos outros',
+      'Risco — quando ignorada, manifesta-se em explosões emocionais e comportamentos destrutivos',
+      'Integração — reconhecer a Sombra consciente é transformar escuridão em maturidade e liberdade',
+    ],
+    examples:[
+      'A pessoa "sempre gentil" que de repente tem um surto de raiva desproporcional numa fila de supermercado',
+      'A criança ensinada que "chorar é fraqueza" reprime a tristeza; ela retorna como irritabilidade no adulto',
+      'A inveja que sentimos de um colega bem-sucedido e não queremos admitir nem para nós mesmos',
+      'Criticar intensamente em alguém a arrogância que não reconhecemos no nosso próprio comportamento diário',
+      'O gestor "correto" que trata funcionários com frieza excessiva — a crueldade negada age às escondidas',
+      'Perceber em terapia que a impaciência intensa esconde medo de perder o controle — e trabalhar isso',
+    ],
+    imgPath:'imagens/sombra.png'
+  },
+  {
+    id:6, tag:'Jung',
+    title:'Individuação',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'O processo de tornar-se quem se é em profundidade — integração da personalidade em totalidade.',
+    full:`A Individuação é o processo psicológico de integração da personalidade, no qual a pessoa se torna mais consciente de si e mais inteira. Não é busca de perfeição, mas de totalidade: aproximar consciência e inconsciente em uma unidade mais madura.
+
+O caminho exige confronto com a Sombra, revisão da Persona e diálogo com conteúdos profundos da psique. O destino desse processo é o Self — o centro e a totalidade da psique.
+
+Seus frutos são autenticidade, equilíbrio interior, liberdade psíquica e sentido de vida.
+
+<em>"Quem olha para fora sonha; quem olha para dentro desperta."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — processo psicológico de integração e ampliação da consciência de si',
+      'Objetivo — não perfeição, mas totalidade: unir consciência e inconsciente numa unidade madura',
+      'Caminho — confronto com a Sombra, revisão da Persona e diálogo com a psique profunda',
+      'Self — centro e totalidade da psique; meta e bússola do processo de individuação',
+      'Resultado — autenticidade, equilíbrio interior, liberdade psíquica e sentido de vida',
+    ],
+    examples:[
+      'Uma pessoa que, após uma crise, percebe que vivia o roteiro dos outros — e decide viver o próprio',
+      'Não ser "o melhor pai do mundo", mas ser um pai inteiro, com limites reais e afeto genuíno',
+      'Entrar em terapia e se deparar com medos antigos, crenças herdadas e desejos nunca admitidos',
+      'A sensação de "isso é o que sou de verdade" que surge após uma decisão corajosa e autêntica',
+      'Relacionamentos mais honestos, porque a pessoa para de usar os outros para completar lacunas internas',
+      'Dizer não a um pedido que contradiz seus valores, mesmo com custo social — e se sentir inteiro nisso',
+    ],
+    imgPath:'imagens/individuacao.png'
+  },
+  {
+    id:7, tag:'Jung',
+    title:'Tipos Psicológicos',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'As maneiras fundamentais de perceber o mundo e se orientar na vida — introversão, extroversão e as quatro funções.',
+    full:`Jung distingue duas atitudes básicas que indicam para onde a energia psíquica se orienta com mais frequência: introversão (volta-se para o mundo interno, reflexão, ideias e subjetividade) e extroversão (dirige-se ao mundo externo, ação, pessoas e acontecimentos).
+
+Além das atitudes, quatro funções organizam a experiência: pensamento (avalia por conceitos e lógica), sentimento (julga por valores e apreciação), sensação (capta o real concreto e os detalhes) e intuição (percebe possibilidades, sentidos e tendências).
+
+Em cada pessoa, uma função tende a se destacar como dominante. O amadurecimento envolve reconhecer a função inferior e desenvolver maior integração entre opostos.
+
+<em>"Nenhum tipo é superior; cada um revela um modo de estar no mundo."</em> — C. G. Jung`,
+    concepts:[
+      'Introversão — energia psíquica orientada para o mundo interno: reflexão, ideias e subjetividade',
+      'Extroversão — energia psíquica orientada para o mundo externo: ação, pessoas e acontecimentos',
+      'Pensamento — função que avalia por conceitos, análise e lógica',
+      'Sentimento — função que julga por valores, relações e apreciação ética',
+      'Sensação — função que capta o real concreto, os fatos e os detalhes presentes',
+      'Intuição — função que percebe possibilidades, padrões ocultos e tendências futuras',
+      'Função dominante — uma função se destaca em cada pessoa, influenciando percepção e decisão',
+    ],
+    examples:[
+      'Introversão — o colega brilhante que participa pouco em reuniões, mas envia e-mails com ideias excepcionais',
+      'Extroversão — o profissional que rende mais em ambientes dinâmicos e perde energia em trabalho solitário longo',
+      'Pensamento — ao comprar um carro, analisa planilhas de custo-benefício antes de qualquer decisão emocional',
+      'Sentimento — o líder que avalia uma demissão pelo impacto humano tanto quanto pelo resultado financeiro',
+      'Sensação — o cirurgião que confia no que vê e palpa nos detalhes concretos, antes de qualquer interpretação',
+      'Intuição — o empreendedor que "sente" que um mercado vai mudar dois anos antes das evidências aparecerem',
+      'Equilíbrio — o analista racional que aprende a ouvir o que sente em decisões pessoais importantes',
+    ],
+    imgPath:'imagens/tipos-psicologicos.png'
+  },
+  {
+    id:8, tag:'Jung',
+    title:'Sincronicidade',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'Coincidências significativas entre a vida psíquica e os acontecimentos — sem relação causal evidente.',
+    full:`Sincronicidade é a ocorrência de coincidências carregadas de sentido, sem relação causal evidente. Os eventos não se explicam por uma cadeia causal direta, mas pelo significado com que se conectam na experiência da pessoa.
+
+Jung propõe uma correspondência simbólica entre estados internos e acontecimentos externos. A sincronicidade pode ampliar a consciência, despertar reflexão e revelar padrões de sentido na vida.
+
+Seu valor está no significado vivido pela pessoa — não em magia ou prova automática.
+
+<em>"O encontro entre interior e exterior pode revelar uma ordem simbólica."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — ocorrência de coincidências carregadas de sentido, sem causa direta evidente',
+      'Distinção — não é causa e efeito: os eventos se conectam pelo significado, não por cadeia causal',
+      'Correspondência — Jung propõe ligação simbólica entre estados psíquicos internos e eventos externos',
+      'Função — pode ampliar a consciência e revelar padrões de sentido ocultos na vida',
+      'Limite — não é magia; seu valor está no significado vivido e não em prova automática',
+    ],
+    examples:[
+      'Estar pensando profundamente em mudar de carreira e, naquele dia, encontrar casualmente um mentor da nova área',
+      'Dois amigos que têm o mesmo sonho na mesma noite sem terem conversado sobre o assunto anteriormente',
+      'Num momento de luto, uma música esquecida toca no rádio com uma letra exatamente sobre aquilo que você sente',
+      'Abrir um livro ao acaso e encontrar a frase que responde exatamente à pergunta que você carregava há dias',
+      'A coincidência que faz alguém parar e perguntar: "O que isso está querendo me dizer sobre minha vida agora?"',
+    ],
+    imgPath:'imagens/sincronicidade.png'
+  },
+  {
+    id:9, tag:'Jung',
+    title:'Sonhos e Símbolos',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'A linguagem do inconsciente — como os sonhos expressam conteúdos profundos e compensam a atitude consciente.',
+    full:`Os sonhos são produções naturais da psique. Para Jung, eles expressam conteúdos do inconsciente e compensam a atitude consciente — dialogando com o momento vivido pela pessoa. Podem orientar, equilibrar, alertar, preparar e ampliar a consciência.
+
+Os símbolos carregam múltiplos significados: ligam a consciência ao inconsciente e apontam para algo maior do que o conceito racional. A interpretação depende sempre do contexto pessoal.
+
+Sonhos e símbolos favorecem a individuação, aproximando o ego de conteúdos mais profundos da totalidade psíquica.
+
+<em>"Os sonhos são a pequena porta escondida nas profundezas mais íntimas e mais desconhecidas da alma."</em> — C. G. Jung`,
+    concepts:[
+      'Definição — produções naturais da psique que expressam e compensam a atitude consciente',
+      'Função — orientar, equilibrar, alertar, preparar e ampliar a consciência da pessoa',
+      'Símbolos — imagens que carregam múltiplos significados, ligando consciência ao inconsciente',
+      'Interpretação — depende do contexto pessoal; o mesmo símbolo tem sentidos diferentes para cada um',
+      'Símbolos comuns — água (emoção), casa (psique), serpente (transformação), criança (potencial novo)',
+      'Relação com o Self — sonhos favorecem a individuação ao aproximar o ego da totalidade psíquica',
+    ],
+    examples:[
+      'Sonhar repetidamente com uma prova que não consegue terminar, mesmo anos após sair da faculdade',
+      'Sonhos de queda antes de uma decisão importante — o inconsciente sinalizando o risco sentido internamente',
+      'A serpente num sonho pode significar transformação para um, e perigo iminente para outro — depende da história',
+      'Sonho com uma casa em ruínas durante um período de crise: a psique mostrando o que precisa de reconstrução',
+      '"Dentes caindo" pode indicar medo de perda de poder ou ansiedade com a própria imagem social no trabalho',
+      'Sonhos com uma luz interior ou figura luminosa podem sinalizar avanço real no processo de individuação',
+    ],
+    imgPath:'imagens/sonhos-e-simbolos.png'
+  },
+  {
+    id:10, tag:'Jung',
+    title:'Anima e Animus',
+    author:'Carl Gustav Jung · Psicologia Analítica',
+    short:'A alma em suas formas complementares — o aspecto feminino no homem (Anima) e o masculino na mulher (Animus).',
+    full:`A Anima é o aspecto feminino do inconsciente do homem — representa qualidades como sensibilidade, intuição, emocionalidade, relacionamento e profundidade interior. O Animus é o aspecto masculino do inconsciente da mulher — representa razão, lógica, assertividade, clareza e direção.
+
+Essas figuras não são estereótipos de gênero, mas dimensões psíquicas complementares presentes em todo ser humano. Quando não reconhecidos, Anima e Animus atuam inconscientemente e geram projeções, conflitos e perda de si mesmo.
+
+A integração traz harmonia entre razão e sentimento, ação e intuição, interior e exterior — conduzindo à totalidade do Self.
+
+<em>"A integração da anima e do animus é essencial para a totalidade do ser."</em> — C. G. Jung`,
+    concepts:[
+      'Anima — aspecto feminino do inconsciente do homem: sensibilidade, intuição, emocionalidade e alma',
+      'Animus — aspecto masculino do inconsciente da mulher: razão, lógica, assertividade e direção',
+      'Função da Anima — conecta o homem ao mundo interior, aos sentimentos e à vida psíquica profunda',
+      'Função do Animus — orienta a mulher à objetividade, ao pensamento lógico e à tomada de decisões',
+      'Projeção — quando não integrados, são projetados nos parceiros, gerando idealização ou conflito',
+      'Desequilíbrio — Anima/Animus não reconhecidos geram explosões, autocrítica e relações difíceis',
+      'Integração — reconhecer e integrar essas dimensões conduz à individuação e à totalidade do Self',
+    ],
+    examples:[
+      'Anima — homem muito racional que se apaixona intensamente por mulheres "misteriosas e artísticas" está projetando sua Anima',
+      'Função da Anima — o homem que começa a meditar, escrever ou cuidar do jardim acessa dimensões interiores antes ignoradas',
+      'Animus — mulher criativa mas insegura que se relaciona com homens dominadores está projetando a força do seu Animus',
+      'Função do Animus — a mulher que aprende a dizer não com clareza e a defender suas ideias sem pedir desculpas integra o Animus',
+      'Manifestação da Anima — sonhos com figuras femininas encantadoras ou ameaçadoras em homens em transição de vida',
+      'Manifestação do Animus — voz interior crítica e implacável numa mulher que se sabota antes de falar em público',
+      'Integração — homem que desenvolve empatia sem perder objetividade; mulher que age com assertividade sem suprimir a sensibilidade',
+    ],
+    imgPath:'imagens/anima-e-animus.png'
+  },
+];
+
+// ─── ESTADO ───────────────────────────────────────────────────────────────
+let items   = [...initialItems];
+let nextId  = items.length + 1;
+let activeTag = 'all';
+
+// ─── TAGS ─────────────────────────────────────────────────────────────────
+function buildTags() {
+  const bar = document.getElementById('filterBar');
+  const existing = [...bar.querySelectorAll('[data-tag]')].map(b => b.dataset.tag);
+  [...new Set(items.map(i=>i.tag).filter(Boolean))].forEach(t => {
+    if (existing.includes(t)) return;
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.tag = t;
+    btn.textContent = t;
+    btn.onclick = () => filterBy(t, btn);
+    bar.appendChild(btn);
+  });
+}
+
+function filterBy(tag, btn) {
+  activeTag = tag;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGallery();
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────
+function renderGallery() {
+  const grid    = document.getElementById('galleryGrid');
+  const visible = activeTag === 'all' ? items : items.filter(i => i.tag === activeTag);
+  document.getElementById('countBadge').textContent =
+    `${visible.length} obra${visible.length !== 1 ? 's' : ''}`;
+
+  grid.innerHTML = '';
+  if (!visible.length) {
+    grid.innerHTML = '<div class="empty-state"><p>Nenhuma obra encontrada.</p></div>';
+    return;
+  }
+
+  visible.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.onclick = () => openModal(item);
+
+    // Thumb: usa caminho relativo direto — funciona quando index.html e /imagens estão na mesma pasta
+    const thumbHtml = item.imgPath
+      ? `<div class="card-thumb-wrap">
+           <img class="card-thumb"
+                src="${item.imgPath}"
+                alt="${item.title}"
+                onerror="this.parentElement.innerHTML='<svg width=44 height=44 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'#7a6030\\' stroke-width=\\'1\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'1\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><path d=\\'M21 15l-5-5L5 21\\'/></svg>'"/>
+         </div>`
+      : `<div class="card-thumb-wrap">
+           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#7a6030" stroke-width="1">
+             <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+           </svg>
+         </div>`;
+
+    card.innerHTML = `
+      ${thumbHtml}
+      <div class="card-body">
+        ${item.tag ? `<span class="card-tag">${item.tag}</span>` : ''}
+        <p class="card-num">Nº ${String(idx+1).padStart(2,'0')}</p>
+        <h3 class="card-title">${item.title}</h3>
+        <p class="card-desc">${item.short}</p>
+        <span class="card-cta">Ver detalhes →</span>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────
+function openModal(item) {
+  const wrap = document.getElementById('modalImgWrap');
+  const mImg = document.getElementById('modalImg');
+
+  if (item.imgPath) {
+    wrap.style.display = '';
+    mImg.src  = item.imgPath;
+    mImg.alt  = item.title;
+    document.getElementById('modal').style.gridTemplateColumns = '';
+  } else {
+    wrap.style.display = 'none';
+    document.getElementById('modal').style.gridTemplateColumns = '1fr';
+  }
+
+  document.getElementById('modalEyebrow').textContent = item.author || '';
+  document.getElementById('modalTitle').textContent   = item.title;
+  document.getElementById('modalBody').innerHTML =
+    (item.full || '').split('\n').map(p => p.trim() ? `<p>${p}</p>` : '').join('');
+
+  const mc = document.getElementById('modalConcepts');
+  if (item.concepts && item.concepts.length) {
+    mc.style.display = 'block';
+    mc.innerHTML = `<p class="mc-title">◆ Conceitos Fundamentais</p>
+      <ul class="clist">${item.concepts.map(c=>`<li>${c}</li>`).join('')}</ul>`;
+  } else {
+    mc.style.display = 'none';
+  }
+
+  const me = document.getElementById('modalExamples');
+  if (item.examples && item.examples.length) {
+    me.style.display = 'block';
+    me.innerHTML = `<p class="me-title">▸ Exemplos no Cotidiano</p>
+      <ul class="elist">${item.examples.map(e=>`<li>${e}</li>`).join('')}</ul>`;
+  } else {
+    me.style.display = 'none';
+  }
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function overlayClick(e) { if (e.target.id === 'modalOverlay') closeModal(); }
+
+// ─── PANEL ────────────────────────────────────────────────────────────────
+function openPanel()  { document.getElementById('addPanel').classList.add('open');    document.body.style.overflow='hidden'; }
+function closePanel() { document.getElementById('addPanel').classList.remove('open'); document.body.style.overflow=''; }
+
+// ─── FILE NAME HINT ───────────────────────────────────────────────────────
+document.getElementById('iFilename').addEventListener('input', function() {
+  const val = this.value.trim();
+  document.getElementById('pathPreview').textContent = 'imagens/' + (val || '');
+});
+
+// ─── PREVIEW (apenas visual, não salva) ───────────────────────────────────
+function handlePreview(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Auto-fill filename field if empty
+  const fnField = document.getElementById('iFilename');
+  if (!fnField.value.trim()) {
+    fnField.value = file.name.toLowerCase().replace(/\s+/g, '-');
+    document.getElementById('pathPreview').textContent = 'imagens/' + fnField.value;
+  }
+
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const prev = document.getElementById('iPreview');
+    prev.src = ev.target.result;
+    prev.style.display = 'block';
+    const fn = document.getElementById('iFilenameDetected');
+    fn.style.display = 'block';
+    fn.textContent = '📁 ' + file.name + ' · Lembre-se de colocar este arquivo em /imagens';
+  };
+  reader.readAsDataURL(file);
+
+  // Drag feedback reset
+  document.getElementById('uploadArea').classList.remove('drag');
+}
+
+// Drag & drop feedback
+const ua = document.getElementById('uploadArea');
+ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag'); });
+ua.addEventListener('dragleave', () => ua.classList.remove('drag'));
+ua.addEventListener('drop', e => {
+  e.preventDefault(); ua.classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    document.getElementById('iFile').files = e.dataTransfer.files;
+    handlePreview({ target: { files: [file] } });
+  }
+});
+
+// ─── ADD CARD ─────────────────────────────────────────────────────────────
+function addCard() {
+  const title    = document.getElementById('iTitle').value.trim();
+  if (!title) { alert('Por favor, insira um título.'); return; }
+
+  const filename = document.getElementById('iFilename').value.trim();
+  const imgPath  = filename ? 'imagens/' + filename : '';
+
+  items.push({
+    id: nextId++,
+    tag:      document.getElementById('iTag').value.trim() || 'Sem categoria',
+    title,
+    author:   document.getElementById('iAuthor').value.trim(),
+    short:    document.getElementById('iShort').value.trim(),
+    full:     document.getElementById('iFull').value.trim(),
+    concepts: document.getElementById('iConcepts').value.trim().split('\n').filter(Boolean),
+    imgPath,
+  });
+
+  buildTags();
+  // Se a tag nova foi criada, ativar ela
+  const newTag = items[items.length-1].tag;
+  const btn = document.querySelector(`[data-tag="${newTag}"]`) ||
+              document.querySelector('[data-tag="all"]');
+  filterBy(activeTag, document.querySelector(`[data-tag="${activeTag}"]`));
+  closePanel();
+
+  // Reset form
+  ['iTitle','iAuthor','iTag','iShort','iFull','iConcepts','iFilename'].forEach(id =>
+    document.getElementById(id).value = ''
+  );
+  document.getElementById('pathPreview').textContent = 'imagens/';
+  document.getElementById('iPreview').style.display = 'none';
+  document.getElementById('iFilenameDetected').style.display = 'none';
+
+  setTimeout(() =>
+    document.getElementById('galleryGrid').lastElementChild
+      ?.scrollIntoView({behavior:'smooth',block:'center'}), 150);
+}
+
+// ─── KEYBOARD ─────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closePanel(); }
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+buildTags();
+renderGallery();
+</script>
+</body>
+</html>
