@@ -15,18 +15,18 @@
   --cream:#f0e6c8;--cream-dim:#b8a880;--text:#d4c89a;
 
   /* Escala tipográfica base (desktop) */
-  --fs-xs:   0.8rem;   /* labels, badges, tags        */
-  --fs-sm:   0.95rem;  /* nav links, botões, card-num */
-  --fs-base: 1.1rem;   /* card desc, body texto       */
-  --fs-md:   1.2rem;   /* card title, mc-title        */
-  --fs-lg:   1.35rem;  /* sec-label, modal eyebrow    */
-  --fs-xl:   1.6rem;   /* sec-title, modal title base */
-  --fs-2xl:  2rem;     /* hero subtitle               */
+  --fs-xs:   0.95rem;  /* labels, badges, tags        */
+  --fs-sm:   1.1rem;   /* nav links, botões, card-num */
+  --fs-base: 1.25rem;  /* card desc, body texto       */
+  --fs-md:   1.4rem;   /* card title, mc-title        */
+  --fs-lg:   1.55rem;  /* sec-label, modal eyebrow    */
+  --fs-xl:   1.85rem;  /* sec-title, modal title base */
+  --fs-2xl:  2.3rem;   /* hero subtitle               */
 
   --nav-h: 64px;
 }
 
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth;font-size:18px}
 body{background:var(--navy);color:var(--text);
   font-family:'EB Garamond',Georgia,serif;font-size:var(--fs-base);
   min-height:100vh;overflow-x:hidden;line-height:1.65}
@@ -52,11 +52,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;
   color:var(--cream-dim);text-decoration:none;transition:color .2s;white-space:nowrap}
 .nav-links a:hover{color:var(--gold-light)}
 
-.nav-add{background:none;border:1px solid var(--gold-dim);color:var(--gold);
-  font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.08em;
-  padding:.55rem 1.2rem;cursor:pointer;transition:all .2s;white-space:nowrap;
-  min-height:44px}                        /* toque mínimo 44px */
-.nav-add:hover{background:var(--gold);color:var(--navy)}
 
 /* ── HERO ── */
 .hero{position:relative;z-index:1;
@@ -182,56 +177,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;
   transition:all .2s;z-index:10;border-radius:0}
 .modal-close:hover{background:var(--gold);color:var(--navy)}
 
-/* ── ADD PANEL ── */
-.add-panel{position:fixed;top:0;right:0;bottom:0;z-index:150;
-  width:min(520px,100vw);background:linear-gradient(160deg,#0c1929,#10202f);
-  border-left:1px solid var(--gold-dim);padding:1.5rem;overflow-y:auto;
-  transform:translateX(100%);transition:transform .35s ease;
-  display:flex;flex-direction:column;gap:1.2rem}
-.add-panel.open{transform:translateX(0)}
-.panel-hd{display:flex;align-items:center;justify-content:space-between;
-  margin-top:3rem;margin-bottom:.5rem}
-.panel-title{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--gold-light)}
-.panel-close{background:none;border:1px solid var(--gold-dim);color:var(--gold);
-  width:42px;height:42px;cursor:pointer;font-size:1.1rem;
-  display:flex;align-items:center;justify-content:center;transition:all .2s}
-.panel-close:hover{background:var(--gold);color:var(--navy)}
-
-.field-label{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.14em;
-  color:var(--gold-dim);text-transform:uppercase;display:block;margin-bottom:.4rem}
-.field-input,.field-textarea{width:100%;background:rgba(255,255,255,.04);
-  border:1px solid var(--gold-dim);color:var(--cream);
-  font-family:'EB Garamond',serif;font-size:1.05rem;
-  padding:.75rem .9rem;outline:none;transition:border-color .2s;resize:vertical;
-  min-height:44px}
-.field-input:focus,.field-textarea:focus{border-color:var(--gold)}
-.field-textarea{min-height:90px}
-
-/* Upload */
-.upload-area{border:2px dashed var(--gold-dim);padding:2rem 1rem;
-  text-align:center;cursor:pointer;transition:all .25s;position:relative;
-  background:rgba(201,168,76,.02)}
-.upload-area:hover,.upload-area.drag{border-color:var(--gold);background:rgba(201,168,76,.06)}
-.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.upload-icon{font-size:2.2rem;margin-bottom:.5rem}
-.upload-text-main{font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.1em;
-  color:var(--cream-dim);margin-bottom:.3rem}
-.upload-text-sub{font-size:var(--fs-xs);color:var(--gold-dim)}
-.upload-preview{width:100%;max-height:200px;object-fit:cover;
-  border:1px solid var(--gold-dim);margin-top:.8rem;display:none;filter:sepia(.2) brightness(.9)}
-.upload-filename{font-family:'Cinzel',serif;font-size:var(--fs-xs);letter-spacing:.1em;
-  color:var(--gold);margin-top:.5rem;display:none}
-
-.path-hint{font-size:var(--fs-xs);color:var(--gold-dim);line-height:1.6;
-  border-left:2px solid var(--gold-dim);padding:.55rem .9rem;
-  background:rgba(201,168,76,.03);margin-top:.25rem}
-.path-hint code{color:var(--gold-light);font-family:monospace;font-size:.9rem}
-
-.add-btn{background:var(--gold);color:var(--navy);border:none;
-  font-family:'Cinzel',serif;font-size:var(--fs-sm);letter-spacing:.13em;
-  text-transform:uppercase;padding:1rem 1.8rem;cursor:pointer;
-  transition:background .2s;align-self:flex-start;margin-top:.5rem;min-height:48px}
-.add-btn:hover{background:var(--gold-light)}
 
 /* Empty */
 .empty-state{grid-column:1/-1;text-align:center;padding:4rem 2rem}
@@ -281,7 +226,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--gold-dim);
 
   nav{padding:0 1rem}
   .nav-brand{font-size:.82rem;letter-spacing:.08em}
-  .nav-add{padding:.5rem .9rem;font-size:.82rem}
 
   /* Hero */
   .hero{padding:calc(var(--nav-h) + 2.5rem) 1rem 2.5rem}
@@ -313,11 +257,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--gold-dim);
   .clist li{font-size:.95rem}
   .modal-close{width:40px;height:40px;top:.6rem;right:.6rem}
 
-  /* Panel */
-  .add-panel{width:100vw;border-left:none;border-top:1px solid var(--gold-dim);padding:1rem}
-  .panel-hd{margin-top:2.5rem}
-  .panel-title{font-size:1.1rem}
-  .add-btn{width:100%;justify-content:center;text-align:center}
 }
 
 /* ── MOBILE PEQUENO (≤ 380px) ── */
@@ -344,7 +283,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--gold-dim);
     <li><a href="#colecao">Coleção</a></li>
     <li><a href="#sobre">Sobre</a></li>
   </ul>
-  <button class="nav-add" onclick="openPanel()">+ Adicionar</button>
 </nav>
 
 <!-- HERO -->
@@ -395,61 +333,6 @@ footer{position:relative;z-index:1;border-top:1px solid var(--gold-dim);
   </div>
 </div>
 
-<!-- ADD PANEL -->
-<div class="add-panel" id="addPanel">
-  <div class="panel-hd">
-    <h3 class="panel-title">Nova Obra</h3>
-    <button class="panel-close" onclick="closePanel()">✕</button>
-  </div>
-
-  <div>
-    <label class="field-label">Título *</label>
-    <input class="field-input" id="iTitle" placeholder="Ex: Sombra — Carl Jung"/>
-  </div>
-  <div>
-    <label class="field-label">Autor / Categoria</label>
-    <input class="field-input" id="iAuthor" placeholder="Ex: Jung · Psicologia Analítica"/>
-  </div>
-  <div>
-    <label class="field-label">Tag (filtro)</label>
-    <input class="field-input" id="iTag" placeholder="Ex: Jung"/>
-  </div>
-  <div>
-    <label class="field-label">Descrição curta (card)</label>
-    <input class="field-input" id="iShort" placeholder="Até 120 caracteres"/>
-  </div>
-  <div>
-    <label class="field-label">Descrição completa (modal)</label>
-    <textarea class="field-textarea" id="iFull" style="min-height:110px" placeholder="Texto detalhado..."></textarea>
-  </div>
-  <div>
-    <label class="field-label">Conceitos-chave (um por linha)</label>
-    <textarea class="field-textarea" id="iConcepts" placeholder="Conceito 1&#10;Conceito 2"></textarea>
-  </div>
-
-  <div>
-    <label class="field-label">Nome do arquivo de imagem</label>
-    <input class="field-input" id="iFilename" placeholder="Ex: sombra.png"/>
-    <div class="path-hint" id="pathHint">
-      Salve o arquivo em: <code>imagens/</code><br/>
-      Caminho completo: <code id="pathPreview">imagens/</code>
-    </div>
-  </div>
-
-  <div>
-    <label class="field-label">Pré-visualização (opcional)</label>
-    <div class="upload-area" id="uploadArea">
-      <input type="file" id="iFile" accept="image/*" onchange="handlePreview(event)"/>
-      <div class="upload-icon">🖼</div>
-      <p class="upload-text-main">Clique para pré-visualizar</p>
-      <p class="upload-text-sub">Apenas para conferir — a imagem real vem da pasta /imagens</p>
-    </div>
-    <img class="upload-preview" id="iPreview" alt="Pré-visualização"/>
-    <p class="upload-filename" id="iFilenameDetected"></p>
-  </div>
-
-  <button class="add-btn" onclick="addCard()">✦ Adicionar à Coleção</button>
-</div>
 
 <script>
 // ─── CATÁLOGO INICIAL ──────────────────────────────────────────────────────
@@ -873,99 +756,10 @@ function closeModal() {
 }
 function overlayClick(e) { if (e.target.id === 'modalOverlay') closeModal(); }
 
-// ─── PANEL ────────────────────────────────────────────────────────────────
-function openPanel()  { document.getElementById('addPanel').classList.add('open');    document.body.style.overflow='hidden'; }
-function closePanel() { document.getElementById('addPanel').classList.remove('open'); document.body.style.overflow=''; }
-
-// ─── FILE NAME HINT ───────────────────────────────────────────────────────
-document.getElementById('iFilename').addEventListener('input', function() {
-  const val = this.value.trim();
-  document.getElementById('pathPreview').textContent = 'imagens/' + (val || '');
-});
-
-// ─── PREVIEW (apenas visual, não salva) ───────────────────────────────────
-function handlePreview(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  // Auto-fill filename field if empty
-  const fnField = document.getElementById('iFilename');
-  if (!fnField.value.trim()) {
-    fnField.value = file.name.toLowerCase().replace(/\s+/g, '-');
-    document.getElementById('pathPreview').textContent = 'imagens/' + fnField.value;
-  }
-
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const prev = document.getElementById('iPreview');
-    prev.src = ev.target.result;
-    prev.style.display = 'block';
-    const fn = document.getElementById('iFilenameDetected');
-    fn.style.display = 'block';
-    fn.textContent = '📁 ' + file.name + ' · Lembre-se de colocar este arquivo em /imagens';
-  };
-  reader.readAsDataURL(file);
-
-  // Drag feedback reset
-  document.getElementById('uploadArea').classList.remove('drag');
-}
-
-// Drag & drop feedback
-const ua = document.getElementById('uploadArea');
-ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag'); });
-ua.addEventListener('dragleave', () => ua.classList.remove('drag'));
-ua.addEventListener('drop', e => {
-  e.preventDefault(); ua.classList.remove('drag');
-  const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith('image/')) {
-    document.getElementById('iFile').files = e.dataTransfer.files;
-    handlePreview({ target: { files: [file] } });
-  }
-});
-
-// ─── ADD CARD ─────────────────────────────────────────────────────────────
-function addCard() {
-  const title    = document.getElementById('iTitle').value.trim();
-  if (!title) { alert('Por favor, insira um título.'); return; }
-
-  const filename = document.getElementById('iFilename').value.trim();
-  const imgPath  = filename ? 'imagens/' + filename : '';
-
-  items.push({
-    id: nextId++,
-    tag:      document.getElementById('iTag').value.trim() || 'Sem categoria',
-    title,
-    author:   document.getElementById('iAuthor').value.trim(),
-    short:    document.getElementById('iShort').value.trim(),
-    full:     document.getElementById('iFull').value.trim(),
-    concepts: document.getElementById('iConcepts').value.trim().split('\n').filter(Boolean),
-    imgPath,
-  });
-
-  buildTags();
-  // Se a tag nova foi criada, ativar ela
-  const newTag = items[items.length-1].tag;
-  const btn = document.querySelector(`[data-tag="${newTag}"]`) ||
-              document.querySelector('[data-tag="all"]');
-  filterBy(activeTag, document.querySelector(`[data-tag="${activeTag}"]`));
-  closePanel();
-
-  // Reset form
-  ['iTitle','iAuthor','iTag','iShort','iFull','iConcepts','iFilename'].forEach(id =>
-    document.getElementById(id).value = ''
-  );
-  document.getElementById('pathPreview').textContent = 'imagens/';
-  document.getElementById('iPreview').style.display = 'none';
-  document.getElementById('iFilenameDetected').style.display = 'none';
-
-  setTimeout(() =>
-    document.getElementById('galleryGrid').lastElementChild
-      ?.scrollIntoView({behavior:'smooth',block:'center'}), 150);
-}
 
 // ─── KEYBOARD ─────────────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeModal(); closePanel(); }
+  if (e.key === 'Escape') { closeModal(); }
 });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────
